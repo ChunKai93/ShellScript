@@ -1,6 +1,12 @@
 #!/usr/bin/expect
 set timeout 30
-#port ip
+#调整窗口触发
+trap {
+    set rows [stty rows]
+    set cols [stty columns]
+    stty rows $rows columns $cols < $spawn_out(slave,name)
+} WINCH
+#端口 ip
 spawn ssh -l root -p xxxxx xxx.xxx.xxx.xxx
 expect {
     "(yes/no?" {
